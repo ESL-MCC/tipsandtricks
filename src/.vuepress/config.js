@@ -1,10 +1,12 @@
 const { description } = require('../../package')
+const fs = require("fs");
+const path = require("path");
 
 module.exports = {
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#title
    */
-  title: 'Vuepress Docs Boilerplate',
+  title: 'MCC Tips&Tricks',
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#description
    */
@@ -33,31 +35,35 @@ module.exports = {
     editLinkText: '',
     lastUpdated: false,
     nav: [
+      // {
+      //   text: 'Guide',
+      //   link: '/guide/',
+      // },
+      // {
+      //   text: 'Config',
+      //   link: '/config/'
+      // },
       {
-        text: 'Guide',
-        link: '/guide/',
+        text: 'Meetup',
+        link: 'https://www.google.it'
       },
       {
-        text: 'Config',
-        link: '/config/'
-      },
-      {
-        text: 'VuePress',
-        link: 'https://v1.vuepress.vuejs.org'
+        text: 'Repository',
+        link: 'https://github.com/ESL-MCC/tipsandtricks'
       }
     ],
     sidebar: {
-      '/guide/': [
-        {
-          title: 'Guide',
-          collapsable: false,
-          children: [
-            '',
-            'using-vue',
-          ]
-        }
-      ],
-    }
+      "/m365/": getSideBar("m365", "Microsoft 365")
+      // '/m365/': getM365Sidebar(),
+      // '/azure/': getAzureSidebar(),
+      // '/sql/': getSqlSidebar()
+      // { title: "Home", children: [""] },
+      // {
+      //   title: "Misc",
+      //   children: ["more"],
+      // },
+    },
+    sidebarDepth: 2
   },
 
   /**
@@ -66,5 +72,66 @@ module.exports = {
   plugins: [
     '@vuepress/plugin-back-to-top',
     '@vuepress/plugin-medium-zoom',
+  ]
+
+}
+
+function getSideBar(folder, title) {
+  const extension = [".md"];
+
+  const files = fs
+    .readdirSync(path.join(`${__dirname}/../${folder}`))
+    .filter(
+      (item) =>
+        item.toLowerCase() != "readme.md" &&
+        fs.statSync(path.join(`${__dirname}/../${folder}`, item)).isFile() &&
+        extension.includes(path.extname(item))
+    );
+
+  return [{ title: title, children: ["", ...files] }];
+}
+
+function getM365Sidebar() {
+  return [
+    {
+      title: 'SharePoint',
+      collapsable: false,
+      children: [
+        '/sharepoint/',
+        '/sharepoint/modern-ui'
+      ]
+    },
+    {
+      title: 'PowerAutomate',
+      collapsable: false,
+      children: [
+        ''        
+      ]
+    },
+  ]
+}
+
+function getAzureSidebar() {
+  return [
+    {
+      title: 'PaaS',
+      collapsable: false,
+      children: [
+        '',
+        'app-service'
+      ]
+    }
+  ]
+}
+
+function getSqlSidebar() {
+  return [
+    {
+      title: 'Sql',
+      collapsable: false,
+      children: [
+        ''
+      ]
+    }
   ]
 }
