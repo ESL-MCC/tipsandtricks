@@ -1,6 +1,8 @@
 const { description } = require('../../package')
 const fs = require("fs");
 const path = require("path");
+// const { nav, sidebar } = require("vuepress-bar")(`${__dirName}/..`);
+const getConfig = require('vuepress-bar');
 
 module.exports = {
   /**
@@ -29,41 +31,11 @@ module.exports = {
    * ref：https://v1.vuepress.vuejs.org/theme/default-theme-config.html
    */
   themeConfig: {
-    repo: '',
-    editLinks: false,
-    docsDir: '',
-    editLinkText: '',
+    ...getConfig(`${__dirname}/..`),
+    repo: 'https://github.com/ESL-MCC/tipsandtricks.git/tipsandtricks',
+    editLinks: true,
+    editLinkText: 'Modifica',
     lastUpdated: false,
-    nav: [
-      // {
-      //   text: 'Guide',
-      //   link: '/guide/',
-      // },
-      // {
-      //   text: 'Config',
-      //   link: '/config/'
-      // },
-      {
-        text: 'Meetup',
-        link: 'https://www.google.it'
-      },
-      {
-        text: 'Repository',
-        link: 'https://github.com/ESL-MCC/tipsandtricks'
-      }
-    ],
-    sidebar: {
-      "/m365/": getSideBar("m365", "Microsoft 365")
-      // '/m365/': getM365Sidebar(),
-      // '/azure/': getAzureSidebar(),
-      // '/sql/': getSqlSidebar()
-      // { title: "Home", children: [""] },
-      // {
-      //   title: "Misc",
-      //   children: ["more"],
-      // },
-    },
-    sidebarDepth: 2
   },
 
   /**
@@ -72,6 +44,7 @@ module.exports = {
   plugins: [
     '@vuepress/plugin-back-to-top',
     '@vuepress/plugin-medium-zoom',
+    'vuepress-bar'
   ]
 
 }
@@ -89,49 +62,4 @@ function getSideBar(folder, title) {
     );
 
   return [{ title: title, children: ["", ...files] }];
-}
-
-function getM365Sidebar() {
-  return [
-    {
-      title: 'SharePoint',
-      collapsable: false,
-      children: [
-        '/sharepoint/',
-        '/sharepoint/modern-ui'
-      ]
-    },
-    {
-      title: 'PowerAutomate',
-      collapsable: false,
-      children: [
-        ''        
-      ]
-    },
-  ]
-}
-
-function getAzureSidebar() {
-  return [
-    {
-      title: 'PaaS',
-      collapsable: false,
-      children: [
-        '',
-        'app-service'
-      ]
-    }
-  ]
-}
-
-function getSqlSidebar() {
-  return [
-    {
-      title: 'Sql',
-      collapsable: false,
-      children: [
-        ''
-      ]
-    }
-  ]
 }
